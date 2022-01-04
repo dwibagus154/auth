@@ -2,6 +2,8 @@ package com.dwibagus.auths.controller;
 
 import com.dwibagus.auths.kafka.KafkaConsumer;
 import com.dwibagus.auths.kafka.KafkaProducer;
+import com.dwibagus.auths.kafka.log.KafkaConsumerLog;
+import com.dwibagus.auths.kafka.log.KafkaProducerLog;
 import com.dwibagus.auths.payload.LoginRequest;
 import com.dwibagus.auths.payload.UserResponse;
 import com.dwibagus.auths.payload.UsernamePassword;
@@ -37,6 +39,12 @@ public class AuthRestController {
 
     @Autowired
     private KafkaProducer producer;
+
+    @Autowired
+    private KafkaConsumerLog consumerLog;
+
+    @Autowired
+    private KafkaProducerLog producerLog;
 
     @PostMapping("/login")
     public ResponseEntity<?> loginMember(@RequestBody LoginRequest req) {
@@ -76,7 +84,7 @@ public class AuthRestController {
             }
             return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "user activated", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no category with id " + id, 404), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 404), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -144,6 +152,16 @@ public class AuthRestController {
     @GetMapping("/receive")
     public List<String> receive() {
         return KafkaConsumer.messages;
+    }
+
+    @PostMapping("/send/log")
+    public void sendLog(@RequestBody String data) {
+        producerLog.produce(data);
+    }
+
+    @GetMapping("/receive/log")
+    public List<String> receiveLog() {
+        return KafkaConsumerLog.messages;
     }
 
     public KafkaConsumer getConsumer() {

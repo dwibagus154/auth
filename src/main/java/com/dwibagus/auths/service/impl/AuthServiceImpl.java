@@ -64,7 +64,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public TokenResponse loginMember(LoginRequest req){
         User user = userRepository.getDistinctTopByUsername(req.getUsername());
-        System.out.println(user.getPassword());
         Boolean isMatch = passwordEncoder.matches(req.getPassword(), user.getPassword());
         TokenResponse tokenResponse = new TokenResponse();
         if (isMatch){
