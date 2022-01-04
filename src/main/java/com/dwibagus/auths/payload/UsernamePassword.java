@@ -8,4 +8,6 @@ public class UsernamePassword {
     private String password;
     private String email;
     private Integer isAdmin;
+    private String fullname;
+    private String phone_number;
 }

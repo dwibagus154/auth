@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommonResponseGenerator<T> {
 
-    public <T> CommonResponse<T> response(T data, String message, String status){
+    public <T> CommonResponse<T> response(T data, String message, Integer status){
         CommonResponse commonResponse = new CommonResponse<>();
         commonResponse.setStatus(status);
         commonResponse.setMessage(message);

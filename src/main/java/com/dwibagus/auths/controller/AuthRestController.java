@@ -42,11 +42,15 @@ public class AuthRestController {
     public ResponseEntity<?> loginMember(@RequestBody LoginRequest req) {
         try {
             if (authService.loginMember(req) == null){
-                return new ResponseEntity<>(commonResponseGenerator.response(null, "Password didnt match" ,"403"),HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(commonResponseGenerator.response(null, "Password didnt match" ,400),HttpStatus.BAD_REQUEST);
+            }else {
+                if(authService.loginMember(req).getToken() == null){
+                    return new ResponseEntity<>(commonResponseGenerator.response(null, "User is not active" ,400),HttpStatus.BAD_REQUEST);
+                }
+                return ResponseEntity.ok(commonResponseGenerator.response(authService.loginMember(req), "success login", 200));
             }
-            return ResponseEntity.ok(commonResponseGenerator.response(authService.loginMember(req), "success login", "200"));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,"403"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,400),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,11 +59,11 @@ public class AuthRestController {
         try{
             UserResponse userResponse = authService.register(req);
             if (userResponse == null){
-                return new ResponseEntity<>(commonResponseGenerator.response(null, "User Already Exist","403"),HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(commonResponseGenerator.response(null, "User Already Exist",400),HttpStatus.BAD_REQUEST);
             }
-            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "success register", "200"));
+            return new ResponseEntity<>(commonResponseGenerator.response(userResponse, "success register", 201), HttpStatus.CREATED);
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,"403"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,400),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -67,31 +71,34 @@ public class AuthRestController {
     public ResponseEntity<?> userActivated(@PathVariable Long id) {
         try {
             UserResponse userResponse = adminService.userActivate(id);
-            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "user activated", "200"));
+            if(userResponse == null){
+                return new ResponseEntity<>(commonResponseGenerator.response(null, "user already activated" ,400),HttpStatus.BAD_REQUEST);
+            }
+            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "user activated", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,"403"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,400),HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/user")
     public ResponseEntity<?> getAllUser(){
         try {
-            return ResponseEntity.ok(commonResponseGenerator.response(adminService.getAllUser(), "get all user success", "200"));
+            return ResponseEntity.ok(commonResponseGenerator.response(adminService.getAllUser(), "get all user success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user", "400"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user", 400),HttpStatus.BAD_REQUEST);
         }
 
     }
 
 
-    @GetMapping("/user/{id}")
+    @GetMapping("user/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id){
         System.out.println(id);
         try{
             UserResponse userResponse =  adminService.getUser(id);
-            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "get user success", "200"));
+            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "get user success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, "400"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 400),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -99,9 +106,9 @@ public class AuthRestController {
     public ResponseEntity<?> editUser(@PathVariable Long id, @RequestBody UsernamePassword req) {
         try {
             UserResponse userResponse = adminService.editUser(id, req);
-            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "edit user success", "200"));
+            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "edit user success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,"403"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,400),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -110,12 +117,11 @@ public class AuthRestController {
         System.out.println(id);
         try{
             UserResponse userResponse =  adminService.deleteUser(id);
-            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "delete success", "200"));
+            return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "delete success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, "400"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 400),HttpStatus.BAD_REQUEST);
         }
     }
-
 
 
 
@@ -126,7 +132,7 @@ public class AuthRestController {
             UserResponse userResponse =  adminService.getUser(id);
             return ResponseEntity.ok(userResponse);
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, "400"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 400),HttpStatus.BAD_REQUEST);
         }
     }
 

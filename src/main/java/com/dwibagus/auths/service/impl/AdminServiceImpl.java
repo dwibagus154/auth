@@ -35,6 +35,8 @@ public class AdminServiceImpl implements AdminService {
         userResponse.setId(user.getId());
         userResponse.setUsername(user.getUsername());
         userResponse.setEmail(user.getEmail());
+        userResponse.setFullname(user.getFullname());
+        userResponse.setPhone_number(user.getPhone_number());
         userResponse.setIsAdmin(user.getIsAdmin());
         userResponse.setActive(user.isActive());
         userResponse.setCreated_at(user.getCreated_at());
@@ -45,7 +47,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UserResponse userActivate(Long id){
         User user = userRepository.findById(id).get();
-        System.out.println(user.getUsername());
+        if(user.isActive()){
+            return null;
+        }
         user.setActive(true);
         userRepository.save(user);
 
@@ -99,6 +103,12 @@ public class AdminServiceImpl implements AdminService {
         }
         if (usernamePassword.getEmail() != null){
             user.setEmail(usernamePassword.getEmail());
+        }
+        if (usernamePassword.getFullname()!= null){
+            user.setFullname(usernamePassword.getFullname());
+        }
+        if (usernamePassword.getPhone_number() != null){
+            user.setPhone_number(usernamePassword.getPhone_number());
         }
         user.setUpdated_at(new Date());
         userRepository.save(user);

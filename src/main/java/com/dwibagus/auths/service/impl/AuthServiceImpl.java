@@ -32,6 +32,8 @@ public class AuthServiceImpl implements AuthService {
         userResponse.setId(user.getId());
         userResponse.setUsername(user.getUsername());
         userResponse.setEmail(user.getEmail());
+        userResponse.setFullname(user.getFullname());
+        userResponse.setPhone_number(user.getPhone_number());
         userResponse.setIsAdmin(user.getIsAdmin());
         userResponse.setActive(user.isActive());
         userResponse.setCreated_at(user.getCreated_at());
@@ -66,9 +68,12 @@ public class AuthServiceImpl implements AuthService {
         Boolean isMatch = passwordEncoder.matches(req.getPassword(), user.getPassword());
         TokenResponse tokenResponse = new TokenResponse();
         if (isMatch){
-            tokenResponse.setToken(jwtUtil.generateToken(req.getUsername()));
+            if (user.isActive()){
+                tokenResponse.setToken(jwtUtil.generateToken(req.getUsername()));
+            }else{
+                tokenResponse.setToken(null);
+            }
             return tokenResponse;
-
         }else{
             return null;
         }

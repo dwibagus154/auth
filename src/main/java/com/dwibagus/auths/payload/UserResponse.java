@@ -13,6 +13,8 @@ public class UserResponse {
     private Long id;
     private String username;
     private String email;
+    private String fullname;
+    private String phone_number;
     private Integer isAdmin;
     private boolean active;
     private Date created_at = new Date();
