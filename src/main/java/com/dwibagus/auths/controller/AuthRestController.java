@@ -76,7 +76,7 @@ public class AuthRestController {
             }
             return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "user activated", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,400),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no category with id " + id, 404), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -98,7 +98,7 @@ public class AuthRestController {
             UserResponse userResponse =  adminService.getUser(id);
             return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "get user success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 400),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no post with id " + id, 404), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -108,7 +108,7 @@ public class AuthRestController {
             UserResponse userResponse = adminService.editUser(id, req);
             return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "edit user success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage() ,400),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, e.getMessage(), 400), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -119,7 +119,7 @@ public class AuthRestController {
             UserResponse userResponse =  adminService.deleteUser(id);
             return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "delete success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 400),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no post with id " + id, 404), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -132,7 +132,7 @@ public class AuthRestController {
             UserResponse userResponse =  adminService.getUser(id);
             return ResponseEntity.ok(userResponse);
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 400),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no post with id " + id, 404), HttpStatus.NOT_FOUND);
         }
     }
 
