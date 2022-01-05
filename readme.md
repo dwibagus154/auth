@@ -32,5 +32,11 @@ Untuk mengakses 2 service tersebut, diperlukan 2 service tambahan yaitu API GATE
 2. Jalankan aplikasi
 3. Jika menggunakan terminal untuk menjalankan aplikasi, gunakan mvn:spring-boot run
 
+## ERD
+![Untitled Diagram-Page-1 drawio](https://user-images.githubusercontent.com/59368258/148170577-696fe782-da6a-4d33-9d25-af7e39c212d0.png)
+
+## High Level Architecture
+![Untitled Diagram-Page-3 drawio](https://user-images.githubusercontent.com/59368258/148171621-331a0bcc-56e2-486f-ae04-cca6ed4b5345.png)
+
 ## Author
 * Kadek Dwi Bagus Ananta Udayana	Teknik Informatika ITB
