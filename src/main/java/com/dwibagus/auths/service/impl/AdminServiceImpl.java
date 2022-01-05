@@ -73,7 +73,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UserResponse getUser(Long id){
         User user = userRepository.findById(id).get();
-        System.out.println(user.getUsername());
         //        create user response
         UserResponse userResponse = this.createResponse(user);
         return userResponse;
