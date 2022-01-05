@@ -127,7 +127,7 @@ public class AuthRestController {
             UserResponse userResponse =  adminService.deleteUser(id);
             return ResponseEntity.ok(commonResponseGenerator.response(userResponse, "delete success", 200));
         }catch (Exception e){
-            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no post with id " + id, 404), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(commonResponseGenerator.response(null, "there is no user with id " + id, 404), HttpStatus.NOT_FOUND);
         }
     }
 

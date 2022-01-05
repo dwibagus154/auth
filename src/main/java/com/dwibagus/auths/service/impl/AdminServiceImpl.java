@@ -96,7 +96,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public UserResponse editUser(Long id, UsernamePassword usernamePassword){
         User user = userRepository.findById(id).get();
-        System.out.println(user.getUsername());
         if (usernamePassword.getUsername() != null){
             user.setUsername(usernamePassword.getUsername());
         }

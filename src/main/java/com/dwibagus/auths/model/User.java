@@ -21,6 +21,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     private String password;
+    @Column(nullable = false)
     private Integer isAdmin = 0;
     private String fullname = null;
     private String phone_number = null;
