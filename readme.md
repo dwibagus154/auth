@@ -14,10 +14,34 @@ Cocreate App merupakan sebuah aplikasi berbentuk microservice yang memiliki 2 se
 Untuk mengakses 2 service tersebut, diperlukan 2 service tambahan yaitu API GATEWAY DAN DISCOVERY SERVICE.
 
 
+## Fitur 
+Epic: CoCreate Membership Enrollment
+List of Stories:
+> Anyone on banking team can join to the CoCreate community using email or social account
+> As a member, they can choose which categories they want
+> As a member, they can give/update their basic profile information
+
+
+Epic: CoCreate Membership Enrollment
+List of Stories:
+> As a member, they can see top and trending dashboard for members, contributions and innovations
+> As a member, they can see all relevant posts for their choosen categories 
+> As a member, they can see the detail of selected post 
+> As a member, they can give comment, like and share the selected post 
+> As a member, they can post new article related to new idea/insight/news on particular categories
+
+
 ## Instalasi Requirements
 1. JAVA 11
 2. Maven
 3. IntelliJ (opsional)
+4. Kafka
+
+## PORT 
+1. 8080 AUTH
+2. 8081 POSTCOLLAB
+3. 9000 API GATWAY 
+4. 8761 DISCOVERY SERVICE
 
 
 ## Download Repository
